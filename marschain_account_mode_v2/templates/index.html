@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid gap-6 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1.1fr)]">
+  <section class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-lg shadow-slate-200/80 dark:shadow-black/40">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight">Your MarsChain Node</h1>
+        <p class="mt-2 text-sm text-slate-500 dark:text-slate-400 max-w-md">
+          Node ini menjalankan PoW chain dengan ECDSA signature, akun seed terenkripsi, dan P2P sederhana.
+        </p>
+      </div>
+      <div class="flex items-center gap-3 bg-gradient-to-tr from-mars-200 via-mars-100 to-emerald-100 dark:from-mars-500/20 dark:via-mars-400/10 dark:to-emerald-400/10 rounded-2xl px-4 py-3 border border-mars-300 dark:border-mars-500/40">
+        <div class="h-10 w-10 rounded-2xl bg-white dark:bg-slate-950 flex items-center justify-center text-xl">
+          ⛏️
+        </div>
+        <div>
+          <div class="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-400">Current height</div>
+          <div class="text-xl font-semibold">{{ info.height }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 grid gap-3 sm:grid-cols-3">
+      <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 p-3">
+        <div class="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-400">Total Blocks</div>
+        <div class="mt-1 text-xl font-semibold">{{ info.num_blocks }}</div>
+      </div>
+      <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 p-3">
+        <div class="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-400">Mempool TX</div>
+        <div class="mt-1 text-xl font-semibold">{{ info.num_txs_mempool }}</div>
+      </div>
+      <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 p-3">
+        <div class="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-400">Last Hash</div>
+        <div class="mt-1 text-[10px] break-all font-mono text-slate-600 dark:text-slate-300">{{ info.last_hash }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 flex flex-col justify-between gap-4 shadow-lg shadow-slate-200/80 dark:shadow-black/40">
+    <div>
+      <h2 class="text-lg font-semibold">Quick Actions</h2>
+      <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+        Mulai dari akun, wallet seed, sampai mining & eksplor blok.
+      </p>
+      <div class="mt-4 grid gap-2">
+        <a href="{{ url_for('login') }}" class="flex items-center justify-between px-3 py-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 hover:border-mars-400/60 hover:bg-mars-50/60 dark:hover:bg-slate-900 transition">
+          <div>
+            <div class="text-sm font-medium">Login / Register Akun</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">Password + seed terenkripsi.</div>
+          </div>
+          <span class="text-lg">👤</span>
+        </a>
+        <a href="{{ url_for('wallet_page') }}" class="flex items-center justify-between px-3 py-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 hover:border-mars-400/60 hover:bg-mars-50/60 dark:hover:bg-slate-900 transition">
+          <div>
+            <div class="text-sm font-medium">Wallet</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">Lihat seed, address, dan saldo.</div>
+          </div>
+          <span class="text-lg">🔐</span>
+        </a>
+        <a href="{{ url_for('send_page') }}" class="flex items-center justify-between px-3 py-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 hover:border-mars-400/60 hover:bg-mars-50/60 dark:hover:bg-slate-900 transition">
+          <div>
+            <div class="text-sm font-medium">Send MARS</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">Kirim token dari akunmu atau manual seed.</div>
+          </div>
+          <span class="text-lg">📤</span>
+        </a>
+        <a href="{{ url_for('mine_page') }}" class="flex items-center justify-between px-3 py-3 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 hover:border-mars-400/60 hover:bg-mars-50/60 dark:hover:bg-slate-900 transition">
+          <div>
+            <div class="text-sm font-medium">Start Mining</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">Continuous mining + live hash rate.</div>
+          </div>
+          <span class="text-lg">⚡</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

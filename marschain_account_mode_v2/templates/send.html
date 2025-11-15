@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="max-w-3xl mx-auto bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-lg shadow-slate-200/80 dark:shadow-black/40">
+  <h1 class="text-xl sm:text-2xl font-semibold">Send MARS</h1>
+  {% if current %}
+    <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+      Kamu login sebagai <span class="font-mono text-emerald-700 dark:text-emerald-300">{{ current.username }}</span>.
+      Transaksi akan dikirim dari address utama: <span class="font-mono text-xs text-emerald-700 dark:text-emerald-300">{{ current.address }}</span>.
+      Seed disimpan terenkripsi di server, kamu tidak perlu mengetik seed lagi.
+    </p>
+  {% else %}
+    <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+      Kamu belum login akun. Untuk mengirim, isi seed phrase wallet-mu secara manual di bawah.
+    </p>
+  {% endif %}
+
+  <form method="post" class="mt-5 space-y-4">
+    {% if not current %}
+    <div>
+      <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">Seed phrase (kalau tidak login)</label>
+      <textarea name="seed_phrase" rows="3" class="w-full px-3 py-2.5 text-xs rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-mars-400 focus:ring-1 focus:ring-mars-400"></textarea>
+    </div>
+    {% endif %}
+
+    <div>
+      <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">To address</label>
+      <input name="to_address" class="w-full px-3 py-2.5 text-xs rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-mars-400 focus:ring-1 focus:ring-mars-400" placeholder="MARS...">
+    </div>
+    <div class="grid gap-3 sm:grid-cols-2">
+      <div>
+        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">Amount (MARS)</label>
+        <input name="amount" class="w-full px-3 py-2.5 text-xs rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-mars-400 focus:ring-1 focus:ring-mars-400" placeholder="0.0">
+      </div>
+      <div>
+        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">Fee (MARS)</label>
+        <input name="fee" value="0" class="w-full px-3 py-2.5 text-xs rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-mars-400 focus:ring-1 focus:ring-mars-400">
+      </div>
+    </div>
+
+    <button class="px-4 py-2.5 rounded-full bg-mars-500 hover:bg-mars-400 text-sm font-medium text-white shadow-lg shadow-mars-500/40">
+      Send transaction
+    </button>
+  </form>
+
+  {% if message %}
+  <div class="mt-4 text-sm rounded-2xl px-3 py-2.5
+              {% if status == 'success' %} bg-emerald-50 border border-emerald-300 text-emerald-800 dark:bg-emerald-500/10 dark:border-emerald-500/70 dark:text-emerald-100
+              {% elif status == 'error' %} bg-rose-50 border border-rose-300 text-rose-800 dark:bg-rose-500/10 dark:border-rose-500/80 dark:text-rose-100
+              {% else %} bg-sky-50 border border-sky-300 text-sky-800 dark:bg-sky-500/10 dark:border-sky-500/70 dark:text-sky-100 {% endif %}">
+    {{ message }}
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="max-w-3xl mx-auto bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-lg shadow-slate-200/80 dark:shadow-black/40">
+  <h1 class="text-xl sm:text-2xl font-semibold">Peers</h1>
+  <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+    Daftar peer P2P untuk node ini <span class="font-semibold">(read-only)</span>.
+    Untuk deployment online, peers diatur dari environment variable
+    <code class="font-mono text-xs bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">MARSCHAIN_PEERS</code>.
+  </p>
+
+  <div class="mt-4">
+    <h2 class="text-sm font-semibold mb-2">Current peers ({{ peers|length }})</h2>
+    <ul class="space-y-1 text-xs">
+      {% for p in peers %}
+      <li class="px-3 py-2 rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 flex justify-between items-center">
+        <span class="font-mono break-all text-slate-700 dark:text-slate-200">{{ p }}</span>
+      </li>
+      {% else %}
+      <li class="text-slate-500 dark:text-slate-500 text-xs">Belum ada peer. Jalankan beberapa node dan set <code>MARSCHAIN_PEERS</code> di server.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <p class="mt-4 text-[11px] text-slate-500 dark:text-slate-500">
+    Contoh: <code>MARSCHAIN_PEERS="http://node1:5000,http://node2:5000"</code>.
+  </p>
+</section>
+{% endblock %}

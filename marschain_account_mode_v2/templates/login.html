@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="max-w-2xl mx-auto bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-lg shadow-slate-200/80 dark:shadow-black/40">
+  <h1 class="text-xl sm:text-2xl font-semibold">Login / Register</h1>
+  <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+    Ini versi lebih aman: kamu punya <span class="font-semibold">username + password</span>.
+    Server menyimpan seed terenkripsi di database. Seed tetap ditampilkan sekali waktu register supaya bisa kamu catat.
+  </p>
+
+  <div class="mt-4 flex text-xs border border-slate-200 dark:border-slate-700 rounded-full bg-slate-100/80 dark:bg-slate-900/80 overflow-hidden">
+    <button type="button" onclick="setTab('login')" id="tab-login"
+      class="flex-1 py-2 text-center font-medium {% if active_mode != 'register' %}bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50{% else %}text-slate-500 dark:text-slate-400{% endif %}">
+      Login
+    </button>
+    <button type="button" onclick="setTab('register')" id="tab-register"
+      class="flex-1 py-2 text-center font-medium {% if active_mode == 'register' %}bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50{% else %}text-slate-500 dark:text-slate-400{% endif %}">
+      Register
+    </button>
+  </div>
+
+  <form method="post" class="mt-4 space-y-4">
+    <input type="hidden" name="mode" id="mode-input" value="{{ active_mode if active_mode else 'login' }}">
+    <div>
+      <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">Username / email</label>
+      <input name="username" class="w-full px-3 py-2.5 text-xs rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-mars-400 focus:ring-1 focus:ring-mars-400" placeholder="contoh: kamu@gmail.com">
+    </div>
+    <div>
+      <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">Password</label>
+      <input name="password" type="password" class="w-full px-3 py-2.5 text-xs rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-mars-400 focus:ring-1 focus:ring-mars-400">
+    </div>
+    <button class="w-full px-4 py-2.5 rounded-full bg-mars-500 hover:bg-mars-400 text-sm font-semibold text-white shadow-lg shadow-mars-500/40">
+      <span id="btn-label">{{ 'Register akun baru' if active_mode == 'register' else 'Login' }}</span>
+    </button>
+  </form>
+
+  {% if message %}
+  <div class="mt-4 text-xs rounded-2xl px-3 py-2.5 bg-rose-500/10 border border-rose-500/80 text-rose-700 dark:text-rose-100">
+    {{ message }}
+  </div>
+  {% endif %}
+
+  <p class="mt-5 text-[11px] text-slate-500 dark:text-slate-500">
+    Untuk produksi, kamu bisa ganti form ini dengan Google OAuth beneran.
+  </p>
+</section>
+
+<script>
+  function setTab(mode) {
+    const modeInput = document.getElementById('mode-input');
+    modeInput.value = mode;
+    const tabLogin = document.getElementById('tab-login');
+    const tabRegister = document.getElementById('tab-register');
+    const btnLabel = document.getElementById('btn-label');
+    if (mode === 'register') {
+      tabRegister.classList.add('bg-white','dark:bg-slate-800','text-slate-900','dark:text-slate-50');
+      tabLogin.classList.remove('bg-white','dark:bg-slate-800','text-slate-900','dark:text-slate-50');
+      btnLabel.textContent = 'Register akun baru';
+    } else {
+      tabLogin.classList.add('bg-white','dark:bg-slate-800','text-slate-900','dark:text-slate-50');
+      tabRegister.classList.remove('bg-white','dark:bg-slate-800','text-slate-900','dark:text-slate-50');
+      btnLabel.textContent = 'Login';
+    }
+  }
+</script>
+{% endblock %}

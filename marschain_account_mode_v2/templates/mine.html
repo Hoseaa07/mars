@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="max-w-4xl mx-auto bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-lg shadow-slate-200/80 dark:shadow-black/40">
+  <h1 class="text-xl sm:text-2xl font-semibold">Mining</h1>
+  <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+    Browser akan mengirim permintaan mining terus-menerus ke backend. Hash rate dihitung dari jumlah percobaan nonce per detik.
+  </p>
+
+  <div class="mt-5 grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1.3fr)]">
+    <div class="space-y-4">
+      <div>
+        <label class="block text-xs text-slate-500 dark:text-slate-400 mb-1">Miner address</label>
+        <input id="miner-address" class="w-full px-3 py-2.5 text-xs rounded-2xl bg-slate-50 dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 focus:outline-none focus:border-mars-400 focus:ring-1 focus:ring-mars-400" placeholder="MARS address untuk menerima reward" value="{{ logged_address }}">
+      </div>
+      {% if has_logged %}
+      <p class="text-[11px] text-emerald-700 dark:text-emerald-300">
+        Kamu login, jadi address di atas otomatis memakai wallet akunmu. Kamu bisa ganti kalau mau mining ke address lain.
+      </p>
+      {% endif %}
+      <div class="flex flex-wrap gap-3">
+        <button id="btn-start" class="px-4 py-2.5 rounded-full bg-mars-500 hover:bg-mars-400 text-sm font-medium text-white shadow-lg shadow-mars-500/40">
+          Start mining
+        </button>
+        <button id="btn-stop" class="px-4 py-2.5 rounded-full bg-slate-900 text-slate-50 dark:bg-slate-200 dark:text-slate-900 text-sm font-medium">
+          Stop
+        </button>
+      </div>
+      <div id="mine-status" class="rounded-2xl border border-sky-300 dark:border-sky-500/70 bg-sky-50 dark:bg-sky-500/10 px-3 py-2.5 text-xs text-sky-800 dark:text-sky-100">
+        Status: <span class="font-semibold">Idle</span>
+      </div>
+    </div>
+
+    <div class="grid gap-3 sm:grid-cols-2">
+      <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 p-3">
+        <div class="text-[11px] uppercase text-slate-500 dark:text-slate-400">Total Hashes</div>
+        <div class="mt-1 text-xl font-semibold" id="stat-hashes">0</div>
+      </div>
+      <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 p-3">
+        <div class="text-[11px] uppercase text-slate-500 dark:text-slate-400">Hash Rate</div>
+        <div class="mt-1 text-xl font-semibold" id="stat-hashrate">0 H/s</div>
+      </div>
+      <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 p-3">
+        <div class="text-[11px] uppercase text-slate-500 dark:text-slate-400">Blocks Mined</div>
+        <div class="mt-1 text-xl font-semibold" id="stat-blocks">0</div>
+      </div>
+      <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/70 p-3">
+        <div class="text-[11px] uppercase text-slate-500 dark:text-slate-400">Last Height</div>
+        <div class="mt-1 text-xl font-semibold" id="stat-height">0</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="mt-5 text-[11px] text-slate-500 dark:text-slate-500">
+    Difficulty akan di-retarget setiap {{ retarget_interval }} blok agar rata-rata waktu blok mendekati {{ target_block_time }} detik.
+  </p>
+</section>
+
+<script src="{{ url_for('static', filename='mine.js') }}"></script>
+{% endblock %}

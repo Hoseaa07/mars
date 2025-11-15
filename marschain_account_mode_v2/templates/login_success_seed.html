@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="max-w-xl mx-auto bg-amber-50/90 dark:bg-slate-900/90 border border-amber-300 dark:border-amber-500/60 rounded-3xl p-5 sm:p-6 shadow-lg shadow-amber-200/70 dark:shadow-amber-500/30">
+  <h1 class="text-xl sm:text-2xl font-semibold text-amber-900 dark:text-amber-100">Seed phrase akun barumu</h1>
+  <p class="mt-2 text-sm text-amber-900/90 dark:text-amber-100/90">
+    Akun <span class="font-mono text-amber-900 dark:text-amber-200">{{ username }}</span> baru saja dibuat.
+    Ini adalah <span class="font-semibold">satu-satunya</span> seed phrase untuk wallet utamamu.
+  </p>
+
+  <div class="mt-4 rounded-2xl border border-amber-400/80 bg-amber-100/80 dark:bg-amber-500/10 p-4">
+    <div class="text-[11px] uppercase text-amber-900 dark:text-amber-200">Seed phrase</div>
+    <pre class="mt-2 text-[11px] font-mono break-words whitespace-pre-wrap text-amber-900 dark:text-amber-50">{{ seed_phrase }}</pre>
+  </div>
+
+  <ul class="mt-4 text-xs text-amber-900/90 dark:text-amber-100/90 list-disc list-inside space-y-1">
+    <li>Catat di kertas / note offline. Jangan cuma discreenshot.</li>
+    <li>Siapa pun yang punya seed ini bisa mengakses semua MARS kamu.</li>
+  </ul>
+
+  <a href="{{ url_for('wallet_page') }}" class="mt-6 inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-mars-500 hover:bg-mars-400 text-sm font-semibold text-white shadow-lg shadow-mars-500/40">
+    Lanjut ke Wallet
+  </a>
+</section>
+{% endblock %}

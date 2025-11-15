@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ app_name }} — {{ title if title else 'Dashboard' }}</title>
+  <script>
+    // dark mode pakai class pada <html>
+    (function() {
+      const saved = localStorage.getItem('mars_theme') || 'light';
+      if (saved === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            mars: {
+              50: '#fff7ed',
+              100: '#ffedd5',
+              200: '#fed7aa',
+              300: '#fdba74',
+              400: '#fb923c',
+              500: '#f97316',
+              600: '#ea580c',
+              700: '#c2410c',
+              800: '#9a3412',
+              900: '#7c2d12',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+  <div class="min-h-screen flex flex-col">
+    <header class="sticky top-0 z-20 border-b border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-950/80 backdrop-blur">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="h-9 w-9 rounded-2xl bg-gradient-to-tr from-mars-500 via-amber-300 to-emerald-400 flex items-center justify-center shadow-lg shadow-amber-300/40">
+            <span class="text-xl">🪐</span>
+          </div>
+          <div>
+            <div class="font-semibold tracking-wide text-sm uppercase">MarsChain</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">PoW • ECDSA • P2P • Accounts</div>
+          </div>
+        </div>
+        <nav class="flex items-center gap-2 text-xs sm:text-sm">
+          <a href="{{ url_for('index') }}" class="px-3 py-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800/80">Dashboard</a>
+          <a href="{{ url_for('wallet_page') }}" class="px-3 py-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800/80">Wallet</a>
+          <a href="{{ url_for('send_page') }}" class="px-3 py-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800/80">Send</a>
+          <a href="{{ url_for('mine_page') }}" class="px-3 py-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800/80">Mine</a>
+          <a href="{{ url_for('explorer_page') }}" class="px-3 py-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800/80">Explorer</a>
+          <a href="{{ url_for('peers_page') }}" class="px-3 py-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800/80">Peers</a>
+          {% if current_user %}
+            <span class="hidden sm:inline text-[11px] text-emerald-600 dark:text-emerald-300 px-1">Hi, {{ current_user.username }}</span>
+            <a href="{{ url_for('logout') }}" class="px-3 py-1.5 rounded-full bg-slate-900 text-slate-50 dark:bg-slate-200 dark:text-slate-900 text-xs">Logout</a>
+          {% else %}
+            <a href="{{ url_for('login') }}" class="px-3 py-1.5 rounded-full bg-mars-500 hover:bg-mars-400 text-xs font-semibold text-white shadow shadow-mars-500/40">
+              Login
+            </a>
+          {% endif %}
+          <button id="theme-toggle" class="ml-1 h-8 w-8 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-sm">
+            <span id="theme-icon">🌙</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <div class="max-w-6xl mx-auto px-4 py-6">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+
+    <footer class="border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/80 dark:bg-slate-950/80">
+      <div class="max-w-6xl mx-auto px-4 py-3 text-xs text-slate-500 dark:text-slate-400 flex justify-between flex-wrap gap-2">
+        <span>Educational multi-node PoW chain — MarsChain.</span>
+        <span>Chain: <code>data/chain.json</code> • Accounts: <code>data/marschain.db</code></span>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const btn = document.getElementById('theme-toggle');
+    const icon = document.getElementById('theme-icon');
+    function refreshIcon() {
+      const isDark = document.documentElement.classList.contains('dark');
+      icon.textContent = isDark ? '☀️' : '🌙';
+    }
+    refreshIcon();
+    btn.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      const isDark = document.documentElement.classList.contains('dark');
+      localStorage.setItem('mars_theme', isDark ? 'dark' : 'light');
+      refreshIcon();
+    });
+  </script>
+</body>
+</html>
