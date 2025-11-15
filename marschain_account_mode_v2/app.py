@@ -365,7 +365,11 @@ def main():
     args = parser.parse_args()
     NODE_PORT = args.port
     load_peers()
-    app.run(port=NODE_PORT, debug=True)
+
+    # Render / server pakai PORT dari environment kalau ada
+    import os
+    port = int(os.environ.get("PORT", NODE_PORT))
+    app.run(host="0.0.0.0", port=port, debug=False)
 
 if __name__ == "__main__":
     main()
